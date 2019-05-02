@@ -1,0 +1,155 @@
+@font-face {
+  font-family: 'icon';  /* project id 647699 */
+  src: url('https://at.alicdn.com/t/font_647699_89zbu9adr6f.eot');
+  src: url('https://at.alicdn.com/t/font_647699_89zbu9adr6f.eot?#iefix') format('embedded-opentype'),
+  url('https://at.alicdn.com/t/font_647699_89zbu9adr6f.woff2') format('woff2'),
+  url('https://at.alicdn.com/t/font_647699_89zbu9adr6f.woff') format('woff'),
+  url('https://at.alicdn.com/t/font_647699_89zbu9adr6f.ttf') format('truetype'),
+  url('https://at.alicdn.com/t/font_647699_89zbu9adr6f.svg#iconfont') format('svg');
+}
+.icon {
+  display: inline-block;
+  font-family:"icon" !important;
+  font-size: $fm-font-size3;
+  font-style:normal !important;
+  font-weight: normal !important;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2upx;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+page {
+  background: #fff;
+  word-break: break-all;
+}
+
+text, span, view {
+  font-size: $fm-font-size3;
+  color: $fm-font-color1;
+  text-align: left;
+  line-height: 1.5;
+}
+
+/* #ifdef H5 */
+@import './var.scss';
+
+html,
+body,
+div,
+ul,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+dl,
+dt,
+dd,
+ol,
+form,
+input,
+textarea,
+th,
+td,
+select button {
+	margin: 0;
+	padding: 0;
+}
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  color: $fm-font-color1;
+  font-size: 14px;
+  word-break: break-all;
+  font-family: Helvetica, Arial, "hiragino sans gb", "microsoft yahei ui", "microsoft yahei", simsun, sans-serif;
+  overflow: hidden;
+  line-height: 1;
+}
+
+#app {
+  height: 100%;
+  overflow: hidden;
+}
+
+ul,
+li {
+	list-style: none;
+}
+
+img {
+  display: block;
+  height: auto;
+  width: 100%;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+  color: $fm-font-color2;
+}
+
+a:hover {
+  text-decoration: none;
+}
+input,
+textarea,
+button {
+	outline: none;
+  box-shadow: none;
+  border: none;
+}
+textarea {
+	resize: none;
+	overflow: auto;
+}
+input,
+textarea {
+  font-family: "PingFang SC Regular", "-apple-system", BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", STHeiti, "Microsoft Yahei", Tahoma, Simsun, sans-serif;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  outline: none;
+  box-shadow: none;
+  &::-webkit-input-placeholder {
+    color: #c7c7c7;
+  }
+}
+
+//自动填写密码出现的黄色背景
+input:-webkit-autofill {
+  box-shadow: 0 0 100000px white inset !important;
+}
+
+button {
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+
+.clearfix {
+	zoom: 1;
+}
+
+.clearfix:after {
+	content: ".";
+	width: 0;
+	height: 0;
+	visibility: hidden;
+	display: block;
+	clear: both;
+}
+
+i {
+  font-style: normal;
+}
+
+[v-cloak] {
+  display: none !important;
+}
+
+/* #endif */

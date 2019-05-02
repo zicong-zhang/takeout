@@ -1,0 +1,1 @@
+<template name="219ae5ca"><view class="_div cm-search-bar {{ h[ 0 ].rcl }}"><view class="_div cm-search-bar__wrapper" data-cid="{{ _c || c }}" data-hid="{{ 1 }}" onTap="_pe"><view class="_i icon icon-search"></view><view class="_p">搜索商家、商品名称</view></view></view></template>

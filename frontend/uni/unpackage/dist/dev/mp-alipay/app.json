@@ -1,0 +1,11 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/search/index"
+  ],
+  "window": {
+    "defaultTitle": "老沙的外卖小程序",
+    "titleBarColor": "#f8ce8d",
+    "backgroundColor": "#fff"
+  }
+}

@@ -1,0 +1,2 @@
+<template name="2ae8aa44"><view class="_div p-search {{ h[ 0 ].rcl }}"><view class="_h2">212312</view></view></template>
+<template is="2ae8aa44" data="{{ ...$root['0'], $root }}"/>

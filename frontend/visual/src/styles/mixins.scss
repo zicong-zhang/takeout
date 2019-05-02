@@ -1,0 +1,18 @@
+@import './var.scss';
+
+@mixin scroll-bar($isNone: 1) {
+  @if $isNone==none {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  @else {
+    &::-webkit-scrollbar-thumb {
+      border-radius: 8px;
+      background: #ddd;
+    }
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+  }
+}

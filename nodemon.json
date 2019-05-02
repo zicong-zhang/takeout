@@ -1,0 +1,15 @@
+{
+  "watch": [
+    "middleware/",
+    "controllers/",
+    "routes/",
+    "app.js",
+    "package.json"
+  ],
+  "ignore": [
+    "ui/",
+    "node_modules/"
+  ],
+  "ext": "js json vue scss",
+  "exec": "npm start"
+}
