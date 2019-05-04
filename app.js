@@ -1,9 +1,20 @@
-const Koa = require('koa')
-const app = new Koa()
-const json = require('koa-json')
-const onerror = require('koa-onerror')
-const bodyParser = require('koa-bodyparser')
+import Koa from 'koa';
+import json from 'koa-json';
+import onerror from 'koa-onerror';
+import bodyParser from 'koa-bodyparser';
 
+
+// 自定义中间件
+import log from './middleware/logger';
+import urlFilter from './middleware/response-formatter';
+import errorHandler from './middleware/error-handler';
+import routes from './routes';
+
+import handleUniToVisual from './io/handleUniToVisual';
+
+handleUniToVisual();
+
+const app = new Koa();
 
 // error handler
 onerror(app)
@@ -17,12 +28,6 @@ app.use(bodyParser({
 .use(require('koa-static')(__dirname + '/public'))
 
 
-// 自定义中间件
-const log = require('./middleware/logger');
-const urlFilter = require('./middleware/response-formatter');
-const errorHandler = require('./middleware/error-handler');
-
-// 挂载到上下文
 app.context.TriggerError = errorHandler;
 
 app.use(log)
@@ -30,7 +35,6 @@ app.use(urlFilter('^/api'))
 
 
 // routes
-const routes = require('./routes');
 app.use(routes.routes(), routes.allowedMethods())
 
 // error-handling
@@ -38,11 +42,7 @@ app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
 });
 
+
+// 必须以 commonjs 规范导出
+// 因为 bin/www 不能有 es6
 module.exports = app
-
-
-/** TODO
- * 路径别名
- * https://www.npmjs.com/package/module-alias
- * https://www.npmjs.com/package/require-alias
- */

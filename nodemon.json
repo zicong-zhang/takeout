@@ -2,14 +2,15 @@
   "watch": [
     "middleware/",
     "controllers/",
+    "io",
     "routes/",
     "app.js",
     "package.json"
   ],
   "ignore": [
-    "ui/",
+    "visual/",
     "node_modules/"
   ],
   "ext": "js json vue scss",
-  "exec": "npm start"
+  "exec": "node bin/www"
 }
