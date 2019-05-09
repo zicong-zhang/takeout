@@ -20,6 +20,3 @@ yarn-error.log*
 *.sln
 *.sw?
 
-
-# uni
-frontend/uni/pages/index/index.vue
