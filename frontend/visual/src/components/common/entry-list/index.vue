@@ -3,56 +3,47 @@
     <ul class="cm-entry-list__wrapper">
       <li
         v-for="item in list"
-        :key="item.imgUrl"
+        :key="item.name"
         class="cm-entry-list__item"
         @click="jumpPage"
       >
-        <img class="cm-entry-list__item--icon" :src="item.imgUrl"/>
-        <span class="cm-entry-list__item--name">{{ item.name }}</span>
+        <img 
+          class="cm-entry-list__item--icon"
+          v-if="label && item.imgUrl"
+          :src="item.imgUrl"
+          key="has-label"
+        />
+        <i
+          v-else
+          key="no-label"
+          class="cm-entry-list__item--icon"
+        ></i>
+        <span class="cm-entry-list__item--name">{{ label ? item.name : '入口名称' }}</span>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { routerPush } from '../../../utils';
 
 export default {
   name: 'cm-entry-list',
+  props: {
+    // 当前在哪个页面使用
+    label: {
+      default: ''
+    }
+  },
   data() {
     return {
-      list: [
-        {
-          imgUrl: require('@static/icon_workbench_cases.png'),
-          name: '超市便利',
-          jumpLink: './'
-        }, {
-          imgUrl: require('@static/icon_workbench_chart.png'),
-          name: '蔬菜水果',
-          jumpLink: './'
-        }, {
-          imgUrl: require('@static/icon_workbench_customer.png'),
-          name: '老沙专送',
-          jumpLink: './'
-        }, {
-          imgUrl: require('@static/icon_workbench_market.png'),
-          name: '汉堡披萨',
-          jumpLink: './'
-        }, {
-          imgUrl: require('@static/icon_workbench_products.png'),
-          name: '医药健康',
-          jumpLink: './'
-        }, {
-          imgUrl: require('@static/icon_workbench_staff.png'),
-          name: '素食简餐',
-          jumpLink: './'
-        }, {
-          imgUrl: require('@static/icon_workbench_wallet.png'),
-          name: '地方小吃',
-          jumpLink: './'
-        }
-      ]
     }
+  },
+  computed: {
+    ...mapGetters({
+      list: 'entryList/list'
+    }),
   },
   methods: {
     // 跳转页面
@@ -70,13 +61,11 @@ export default {
 
 <style lang="scss">
 .cm-entry-list {
-  padding: 0 $fm-gap-big;
-  padding-bottom: $fm-gap-mid;
+  padding: 6px 0;
 
   &__wrapper {
     display: flex;
     flex-flow: wrap;
-    
   }
 
   &__item {
@@ -90,7 +79,9 @@ export default {
   &__item--icon {
     width: $fm-logo-big;
     height: $fm-logo-big;
-    margin-bottom: 4px;
+    background: #eee;
+    border-radius: 50%;
+    margin-bottom: 8px;
   }
 
   &__item--name {

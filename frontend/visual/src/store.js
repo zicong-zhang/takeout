@@ -14,7 +14,12 @@ export default new Vuex.Store({
         components: [],
         title: '首页',
         backgroundColor: '',
-        textColor: ''
+        textColor: '',
+        usingComponents: {
+          entryList: [
+            
+          ]
+        }
       }
     }
   },

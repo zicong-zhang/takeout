@@ -9,20 +9,26 @@
           class="output-list-item"
           @click="onSelect(item)"
         >
-          <i :class="{checkBox: true, active: !!selectPF[item.id] }"></i>
-          <span>{{ item.name }}</span>
+          <span class="output-list-item__checkbox">
+            <i class="icon-ui i-gou" v-show="selectPF[item.id] "></i>
+          </span>
+          <span class="output-list-item__name">{{ item.name }}</span>
         </li>
       </ul>
+
+      <el-button class="publish-button" size="small" type="primary" @click="onPublish">发布小程序</el-button>
     </div>
     <div class="container">
-      <ComponentsUi />
-      <MiniView :current-page="currentPage" />
-      <ConfigView :current-page="currentPage" />
+      <components-ui />
+      <mini-view :current-page="currentPage" />
+      <config-view :current-page="currentPage" />
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import ComponentsUi from './components/components-ui';
 import MiniView from './components/mini-view';
 import ConfigView from './components/config-view';
@@ -56,6 +62,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'publish'
+    ]),
     onSelect(item) {
       const { id } = item;
       const selected = {...this.selectPF};
@@ -65,6 +74,9 @@ export default {
         : selected[id] = item;
 
       this.$set(this.$data, 'selectPF', selected);
+    },
+    onPublish() {
+      this.publish();
     }
   }
 }
@@ -92,8 +104,10 @@ section {
 }
 .output-config {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   align-self: flex-start;
+  width: 100%;
   margin-bottom: 24px;
   h2 {
     font-size: 15px;
@@ -101,6 +115,7 @@ section {
   }
 }
 .output-list {
+  flex: 1;
   display: flex;
   margin-left: 16px;
 }
@@ -108,19 +123,25 @@ section {
   display: flex;
   align-items: center;
   margin-right: 24px;
-  span {
+  &__name {
     color: $fm-font-color1;
-    font-size: 15px;
+    font-size: 14px;
+  }
+  &__checkbox {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: 1px solid $fm-font-color2;
+    border-radius: 8px;
+    margin-right: 6px;
+  }
+  .icon-ui {
+    position:  absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
   }
 }
-.checkBox {
-  width: 20px;
-  height: 20px;
-  border: 1px solid $fm-font-color2;
-  border-radius: 8px;
-  margin-right: 6px;
-  &.active {
-    background: #000;
-  }
-}
+
 </style>

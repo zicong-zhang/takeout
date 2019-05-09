@@ -100,7 +100,7 @@
     require("@static/icon_workbench_wallet.png")
   ];
 
-  let i = 80;
+  let i = 10;
   while (i--) {
     storeList.push({
       id: `id-${i}`,
@@ -131,6 +131,7 @@
     font-weight: bold;
     text-align-last: left;
     padding-left: $fm-gap-big;
+    padding-top: 12px;
   }
   .filter-bar-wrapper {
     display: flex;

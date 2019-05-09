@@ -8,6 +8,7 @@
     <!-- <Banner /> -->
     <entryList />
     <storeList />
+    <cmCountdownDiscount />
 
     <!-- @fm template end -->
 

@@ -10,3 +10,4 @@ npm run dev
 - [模块引入路径别名](https://www.npmjs.com/package/module-alias)
 - [参数校验](https://github.com/hapijs/joi)
 - [fs-extra 文件操作](https://www.npmjs.com/package/fs-extra)
+- [拖拽](https://github.com/SortableJS/Vue.Draggable)

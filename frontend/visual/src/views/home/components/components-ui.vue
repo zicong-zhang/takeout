@@ -1,14 +1,16 @@
 <template>
   <section class="components-view">
     <div class="select-component">
-      <label>组件库：</label>
-      <!-- <img src="../../../../static/icon_workbench_cases.png" alt=""> -->
-      <select>
-        <option value="1">通用组件</option>
-        <option value="2">微信小程序专用组件</option>
-        <option value="3">支付宝小程序专用组件</option>
-      </select>
+      <el-select v-model="selected" size="small">
+        <el-option
+          v-for="item in selectOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
     </div>
+
     <ul class="component-list">
       <li
         v-for="item in components"
@@ -26,6 +28,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import components from '@/components';
 console.log('components:_____', components);
 export default {
@@ -33,11 +37,27 @@ export default {
   data() {
     return {
       components,
+      selectOptions: [
+        {
+          value: 'common',
+          label: '通用组件'
+        }, {
+          value: 'wx',
+          label: '微信小程序专用组件'
+        }, {
+          value: 'alipay',
+          label: '支付宝小程序专用组件'
+        }
+      ],
+      selected: 'common'
     }
   },
   methods: {
+    ...mapActions([
+      'addComponent'
+    ]),
     onSelect(component) {
-      this.$store.commit('addComponent', component.id);
+      this.addComponent(component.id);
     }
   }
 }
@@ -54,7 +74,7 @@ export default {
 }
 .select-component {
   align-self: flex-start;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
 }
 .component-list {
   @include scroll-bar();

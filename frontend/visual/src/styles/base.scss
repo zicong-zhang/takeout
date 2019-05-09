@@ -23,12 +23,12 @@ page {
   word-break: break-all;
 }
 
-text, span, view {
+/* text, span, view {
   font-size: $fm-font-size3;
   color: $fm-font-color1;
   text-align: left;
   line-height: 1.5;
-}
+} */
 
 /* #ifdef H5 */
 @import './var.scss';
@@ -67,7 +67,7 @@ html {
   color: $fm-font-color1;
   font-size: 14px;
   word-break: break-all;
-  font-family: Helvetica, Arial, "hiragino sans gb", "microsoft yahei ui", "microsoft yahei", simsun, sans-serif;
+  font-family: "PingFang SC Regular", "-apple-system", Helvetica, Arial, "hiragino sans gb", "microsoft yahei ui", "microsoft yahei", simsun, sans-serif;
   overflow: hidden;
   line-height: 1;
 }

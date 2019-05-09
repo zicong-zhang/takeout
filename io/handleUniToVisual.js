@@ -61,7 +61,7 @@ const copyComponents = (src, dest) => {
 }
 
 // 处理 .vue
-const handleVueFile = async (src, dest, dir) => {
+const handleVueFile = async (src, dest) => {
   try {
     let data = await fs.readFile(src, 'utf8');
     data = data
@@ -74,7 +74,7 @@ const handleVueFile = async (src, dest, dir) => {
       .replace(/(require\(['"])(\.\.\/)+static(.*)/g, '$1@static$3')
 
     await fs.ensureFile(dest);
-    console.log('_____',  dest);
+    console.log('.vue output finish --> ',  dest);
     
     fs.writeFile(dest, data, 'utf8');
   } catch (err) {
@@ -85,31 +85,34 @@ const handleVueFile = async (src, dest, dir) => {
 // 复制 uni 的 styles
 const copyStyles = async (src, dest) => {
   eachFile(src, ({ src, relativePath }) => {
-    if (/\.(css|scss)$/.test(src)) {
-      handleStyleFile(src, relativePath, dest);
-    }
+    if (!/\.(css|scss)$/.test(src)) return;
+
+    const _dest = dest + relativePath;
+    handleStyleFile(src, _dest);
   })
 }
 
 // 处理 styles
-const handleStyleFile = async (src, relative, dest) => {
+const handleStyleFile = async (src, dest) => {
   try {
     let data = await fs.readFile(src, 'utf8');
     // upx => px， 单位减半
     data = data.replace(/(\d+)upx/g, (text, group) => `${group / 2}px`);
 
-    fs.writeFile(`${dest}${relative}`, data, 'utf8');
+    await fs.ensureFile(dest);
+    fs.writeFile(dest, data, 'utf8');
+    console.log('styles output finish --> ',  dest);
   } catch (err) {
-    
+    throw err;
   }
 }
 
 
 
 export default () => {
-  const static = {
+  const staticPath = {
     from: alias('@uni/static'),
-    to: alias('@visual/src/static')
+    to: alias('@visual/static')
   }
   const utils = {
     from: alias('@uni/utils'),
@@ -123,9 +126,14 @@ export default () => {
     from: alias('@uni/styles'),
     to: alias('@visual/src/styles')
   }
+  const vuex = {
+    from: alias('@uni/vuex/modules'),
+    to: alias('@visual/src/vuex/uni-modules')
+  }
   
-  copyFiles(static.from, static.to);
+  copyFiles(staticPath.from, staticPath.to);
   copyFiles(utils.from, utils.to);
+  copyFiles(vuex.from, vuex.to);
   copyComponents(components.from, components.to);
   copyStyles(styles.from, styles.to)
 

@@ -1,35 +1,38 @@
 <template>
   <section class="config-view">
-    <h3 class="title">页面配置</h3>
     <div class="config-item">
-      <label>标题栏背景色</label>
-      <ui-color-picker @confirm="onChangeColor" />
+      <vi-title title="页面配置"></vi-title>
+      <vi-form-item label="标题背景">
+        <vi-color-picker @confirm="onChangeColor" />
+      </vi-form-item>
+      <vi-form-item label="标题字体">
+        <vi-color-picker
+          old-color="#404040"
+          @confirm="onChangeTextColor"
+        />
+      </vi-form-item>
+      <vi-form-item label="标题">
+        <vi-input
+          maxlength="12"
+          @input="changePageTitle"
+        />
+      </vi-form-item>
     </div>
-    <div class="config-item">
-      <label>标题栏字体色</label>
-      <ui-color-picker
-        old-color="#404040"
-        @confirm="onChangeTextColor"
-      />
-    </div>
-    <div class="config-item">
-      <label>标题</label>
-      <input
-        type="text"
-        class="input"
-        maxlength="12"
-        @input="changePageTitle"
-      >
-    </div>
-    <div class="config-item">
-      <h3 class="title">入口列表</h3>
 
-    </div>
+    <component
+      v-for="(item, idx) in currentUseComponent"
+      :is="useComponents(item)"
+      :key="idx"
+      class="config-item"
+    />
+
   </section>
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
   import http from '@/request';
+  import useComponents from '@/components';
 
   export default {
     name: "config-view",
@@ -45,7 +48,20 @@
         timer: null,
       };
     },
+    computed: {
+      ...mapGetters([
+        'currentUseComponent'
+      ])
+    },
+    created() {
+      console.log('this.:_____', this.currentUseComponent);
+    },
     methods: {
+      useComponents(id) {
+        const currentComponent = useComponents.find(item => item.id === id);
+        console.log('currentComponent:_____', currentComponent);
+        return currentComponent.hasConfig ? `${id}-config` : '';
+      },
       onChangeColor(color) {
         console.log('color:_____', color);
         this.$store.commit('changePageTitleColor', color);
@@ -59,11 +75,11 @@
       onChangeTextColor(color) {
         this.$store.commit('changePageTitleTextColor', color);
       },
-      changePageTitle(e) {
+      changePageTitle(title) {
         clearTimeout(this.timer);
 
         this.timer = setTimeout(() => {
-          this.$store.commit('changePageTitle', e.target.value);
+          this.$store.commit('changePageTitle', title);
 
           clearTimeout(this.timer);
           this.timer = null;
@@ -76,30 +92,28 @@
 <style lang="scss" scoped>
   .config-view {
     flex: 2;
+    @include scroll-bar();
+    overflow-y: auto;
+    overflow-x: hidden;
   }
   .config-item {
     display: flex;
-    align-items: center;
-    margin-bottom: 16px;
-    label {
+    flex-flow: column;
+    margin-bottom: 24px;
+    &:not(:first-child) {
+      border-top: 1px solid #eee;
+      padding-top: 24px;
+    }
+    &--title {
       width: 90px;
       text-align: left;
-      margin-right: 12px;
+      font-weight: normal;
+      margin-bottom: 12px;
     }
   }
   .title {
     text-align: left;
     font-weight: normal;
     margin-bottom: 16px;
-  }
-  .fm-button {
-    
-  }
-  .input {
-    height: 28px;
-    line-height: 28px;
-    border: 1px solid $fm-font-color2;
-    border-radius: 10px;
-    padding: 0 10px;
   }
 </style>

@@ -2,18 +2,22 @@ import Vue from 'vue';
 import './styles/base.scss';
 import './styles/iconfont.scss';
 
+import ElementUI from 'element-ui';
+import '../theme/index.css';
+// import 'element-ui/lib/theme-chalk/index.css';
+
+Vue.use(ElementUI);
 
 import App from './App.vue'
 import router from './router'
-import store from './store'
+import store from './vuex'
 
 // 由 server 拷贝组件库过来
-import components from './components';
+import './components';
 
-import $Dialog from './components-ui/dialog';
-Vue.use($Dialog)
-import $ColorPicker from './components-ui/color-picker';
-Vue.use($ColorPicker)
+// 可视化页面的公用组件
+import './components-visual';
+
 
 Vue.config.productionTip = false
 

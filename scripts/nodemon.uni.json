@@ -1,0 +1,10 @@
+{
+  "watch": [
+    "frontend/uni/"
+  ],
+  "ignore": [
+    "node_modules/"
+  ],
+  "ext": "js json vue scss",
+  "exec": "node bin/www"
+}

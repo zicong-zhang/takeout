@@ -9,27 +9,4 @@
 </template>
 
 <style lang="scss">
-* {
-  padding: 0;
-  margin: 0;
-}
-html, body {
-  height: 100%;
-  
-}
-#app {
-  height: 100%;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>

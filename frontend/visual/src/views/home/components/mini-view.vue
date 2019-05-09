@@ -1,13 +1,14 @@
 <template>
   <section class="mini-view">
     <div class="select-component">
-      <label>页面：</label>
-      <!-- <img src="../../../../static/icon_workbench_cases.png" alt=""> -->
-      <select>
-        <option value="1">首页</option>
-        <option value="2">订单详情</option>
-        <option value="3">店铺详情</option>
-      </select>
+      <el-select v-model="selected" size="small" @change="changePage">
+        <el-option
+          v-for="(item, idx) in selectOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="idx"
+        />
+      </el-select>
     </div>
 
     <!-- 小程序视图 -->
@@ -16,8 +17,8 @@
       <header
         class="mini-program-header"
         :style="{
-        backgroundColor,
-      }"
+          backgroundColor,
+        }"
       >
         <h2
           class="mini-program-header__name"
@@ -43,14 +44,18 @@
       <!-- 小程序内容 -->
       <div class="mini-program-content">
         <ul class="component-view-list">
-          <li class="component-view-list-item">
-            <component
+          <draggable v-bind="{ animation: 200 }" >
+            <li
               v-for="id in componentList"
               :key="id"
-              :is="id"
-              :label="currentPage"
-            />
-          </li>
+              class="component-view-list-item"
+            >
+              <component
+                :is="id"
+                :label="currentPage"
+              />
+            </li>
+          </draggable>
         </ul>
       </div>
     </section>
@@ -58,14 +63,31 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
+import draggable from 'vuedraggable';
 import components from '@/components';
 
 export default {
   name: 'mini-view',
+  components: {
+    draggable
+  },
   data() {
     return {
-      components
+      components,
+      selectOptions: [
+        {
+          value: 'index',
+          label: '首页'
+        }, {
+          value: 'order-index',
+          label: '订单详情'
+        }, {
+          value: 'store-index',
+          label: '店铺详情'
+        }
+      ],
+      selected: '首页'
     }
   },
   computed: {
@@ -86,21 +108,34 @@ export default {
   },
   created() {
     console.log('this.pagesConfig:_____', this.componentList);
+  },
+  methods: {
+    ...mapMutations([
+      'CHANGE_PAGE',
+    ]),
+    changePage(idx) {
+      const option = this.selectOptions[idx];
+      this.CHANGE_PAGE(option);
+    }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+
+
 .mini-view {
+  user-select: none;
   display: flex;
   flex-flow: column;
   align-items: center;
   flex: none;
+  text-align: center;
   margin-right: 24px;
 }
 .select-component {
   align-self: flex-start;
-  margin-bottom: 32px + 8px;
+  margin-bottom: 26px;
 }
 .mini-program {
   overflow: hidden;
@@ -143,7 +178,6 @@ export default {
   overflow-y: auto;
   overflow-x: hidden;
   height: calc(667px - 44px);
-  user-select: none;
 }
 .component-view-list-item {
   position: relative;

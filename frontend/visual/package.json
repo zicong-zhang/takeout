@@ -1,5 +1,5 @@
 {
-  "name": "takeout-ui",
+  "name": "takeout-visual",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,16 +8,20 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "core-js": "^2.6.5",
-    "iview": "^3.4.1",
+    "axios": "^0.18.0",
+    "element-ui": "^2.7.2",
     "vue": "^2.6.10",
+    "vue-color": "^2.7.0",
     "vue-router": "^3.0.3",
+    "vuedraggable": "^2.20.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.6.0",
     "@vue/cli-service": "^3.6.0",
+    "babel-plugin-component": "^1.1.1",
     "babel-plugin-import": "^1.11.0",
+    "element-theme-chalk": "^2.8.2",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.1.0",
     "style-resources-loader": "^1.2.1",
