@@ -1,8 +1,5 @@
 [TOC]
 
-TODO
-- 以 cli 形式快速创建组件文件
-
 # 如何开发一个组件
 
 组件的开发工作在 `/frontend/uni/components` 中进行
@@ -213,3 +210,10 @@ Vue.component('cmCountdownDiscount', cmCountdownDiscount);
 
 
 # 注意事项
+
+
+
+
+
+TODO
+- 以 cli 形式快速创建组件文件
