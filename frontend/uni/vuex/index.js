@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import entryList from './modules/entry-list';
+import cmEntryList from './modules/entry-list';
+import cmCountdownDiscount from './modules/countdown-discount';
 
 Vue.use(Vuex);
 
@@ -44,7 +45,8 @@ const store = new Vuex.Store({
   },
   actions: {},
   modules: {
-    entryList,
+    cmEntryList,
+    cmCountdownDiscount,
     index: {
       state: {
         name: 'index'

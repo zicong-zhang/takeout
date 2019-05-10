@@ -22,14 +22,10 @@
     </head>
     <body>
         <p>[TOC]</p>
-<p>TODO</p>
-<ul>
-<li>以 cli 形式快速创建组件文件</li>
-</ul>
 <h1 id="如何开发一个组件">如何开发一个组件</h1>
 <p>组件的开发工作在 <code>/frontend/uni/components</code> 中进行</p>
 <h3 id="举个例子我现在需要开发一个倒计时折扣组件">举个例子：我现在需要开发一个倒计时折扣组件</h3>
-<p><strong>开发前请务必阅读 uni-app 的开发指南</strong><br>
+<p><strong>开发前请务必阅读 uni-app 的开发指南</strong><br><br>
 <a href="https://uniapp.dcloud.io/frame">https://uniapp.dcloud.io/frame</a></p>
 <h2 id="1-新增组件文件">1. 新增组件文件</h2>
 <p>根据组件类型，在对应的文件夹下建立组件</p>
@@ -122,7 +118,7 @@ Vue.component(<span class="hljs-string">'cmCountdownDiscount'</span>, cmCountdow
 <blockquote>
 <p>参考：可参考 <code>common/entry-list</code> 下的组件和配置</p>
 </blockquote>
-<p>在可视化页面中，我希望各个组件可以用对应的配置表单去修改某些指定的配置项，并且在视图中实时改变效果。<br>
+<p>在可视化页面中，我希望各个组件可以用对应的配置表单去修改某些指定的配置项，并且在视图中实时改变效果。<br><br>
 这里配置表单的开发需要配合 <code>nodejs</code> 和 运行 <code>frontend/visual</code> 项目进行开发和调试</p>
 <h4 id="步骤">步骤</h4>
 <ol>
@@ -145,8 +141,8 @@ Vue.component(<span class="hljs-string">'cmCountdownDiscount'</span>, cmCountdow
 </ul>
 </li>
 <li>
-<p>注册 vuex module<br>
-4.1 在 <code>frontend/uni/src/vuex/modules</code> 下创建文件 <code>countdown-discount.js</code>， 并注册到 <code>vuex.store</code> 中</p>
+<p>注册 vuex module</p>
+<p>4.1 在 <code>frontend/uni/src/vuex/modules</code> 下创建文件 <code>countdown-discount.js</code>， 并注册到 <code>vuex.store</code> 中</p>
 <pre><code class="language-js"><div><span class="hljs-comment">// countdown-discount.js</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
   <span class="hljs-attr">namespaced</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 命名空间必须开启</span>
@@ -228,9 +224,11 @@ Vue.component(<span class="hljs-string">'cmCountdownDiscountConfig'</span>, cmCo
 </div></code></pre>
 </li>
 </ol>
-<p>表单编写<br>
-必须配合 vuex 编写表单修改的存值</p>
 <h1 id="注意事项">注意事项</h1>
+<h1 id="todo">TODO</h1>
+<ul>
+<li>以 cli 形式快速创建组件文件</li>
+</ul>
 
     </body>
     </html>
