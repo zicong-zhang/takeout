@@ -1,6 +1,6 @@
 <template>
   <div class="cm-search-bar">
-    <div class="cm-search-bar__wrapper" @click="toSearch">
+    <div class="cm-search-bar__wrapper" @click="toSearchPage">
       <i class="icon icon-search"></i>
       <p>搜索商家、商品名称</p>
     </div>
@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import { routerPush } from '../../../utils';
+
 export default {
   name: 'cm-search-bar',
   data() {
@@ -15,8 +17,13 @@ export default {
     }
   },
   methods: {
-    toSearch() {
-      
+    toSearchPage() {
+      routerPush({
+        url: '../search/index',
+        params: {
+          id: 123
+        }
+      })
     }
   }
 }

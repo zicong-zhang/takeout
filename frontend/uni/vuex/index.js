@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import entryList from './modules/entryList';
+import entryList from './modules/entry-list';
 
 Vue.use(Vuex);
 

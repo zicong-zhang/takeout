@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+        <title>如何开发一个组件</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: 'PingFang SC Regular', hack, 'Menlo', -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+    </head>
+    <body>
+        <p>[TOC]</p>
+<p>TODO</p>
+<ul>
+<li>以 cli 形式快速创建组件文件</li>
+</ul>
+<h1 id="如何开发一个组件">如何开发一个组件</h1>
+<p>组件的开发工作在 <code>/frontend/uni/components</code> 中进行</p>
+<h3 id="举个例子我现在需要开发一个倒计时折扣组件">举个例子：我现在需要开发一个倒计时折扣组件</h3>
+<p><strong>开发前请务必阅读 uni-app 的开发指南</strong><br>
+<a href="https://uniapp.dcloud.io/frame">https://uniapp.dcloud.io/frame</a></p>
+<h2 id="1-新增组件文件">1. 新增组件文件</h2>
+<p>根据组件类型，在对应的文件夹下建立组件</p>
+<ul>
+<li>公用组件 <code>/frontend/uni/components/common</code></li>
+<li>微信小程序专用组件 <code>/frontend/uni/components/wx</code></li>
+<li>...</li>
+</ul>
+<p>根据示例，我们在 <code>/frontend/uni/components/common</code> 下新建组件文件夹 <code>countdown-discount/index.vue</code><br>
+即全路径：<code>/frontend/uni/components/common/countdown-discount/index.vue</code></p>
+<pre><code class="language-html"><div>// countdown-discount/index.vue
+
+<span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"uni-cm-countdown-discount"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>这是新增的 uni-cm-countdown-discount 组件<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>开始倒计时: {{ time }}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'uni-cm-countdown-discount'</span>,
+  data() {
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">time</span>: <span class="hljs-number">5000</span>
+    }
+  }
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"scss"</span> <span class="hljs-attr">scoped</span>&gt;</span><span class="undefined">
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+</div></code></pre>
+<h4 id="组件文件的开发规范">组件文件的开发规范</h4>
+<ol>
+<li><code>template</code> 部分最外层类名 和 组件 <code>name</code> 属性，必须以 <code>uni-cm-*</code> 开头，根据组件类型，<code>-cm</code> 可替换成 <code>-wx</code> 等</li>
+</ol>
+<ul>
+<li><code>cm</code>: 表示 <code>common</code> 类型的组件</li>
+<li><code>wx</code>: 表示 <code>wx</code> 类型的组件</li>
+<li>...</li>
+</ul>
+<ol start="2">
+<li>虽然 <code>uni-app</code> 官方推荐使用小程序的标签去开发 <code>html</code> 的部分，但是由于这些组件需要直接拷贝至可视化页面中作为组件使用，所以除了 <code>uni-app</code> 内置的基础组件(如: <code>scroll-view</code>、<code>image</code>) 其余标签请使用 <code>html</code> 标签</li>
+</ol>
+<h2 id="2-注册成全局组件">2. 注册成全局组件</h2>
+<p>2.1 在 <code>/frontend/uni/components/index.js</code> 中引入组件并注册，并对外暴露组件的相关信息</p>
+<blockquote>
+<p>这里注册的组件是给可视化工具使用的</p>
+</blockquote>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> cmCountdownDiscount <span class="hljs-keyword">from</span> <span class="hljs-string">'./common/countdown-discount'</span>;
+Vue.component(<span class="hljs-string">'cmCountdownDiscount'</span>, cmCountdownDiscount);
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> [{
+  <span class="hljs-attr">id</span>: <span class="hljs-string">'cmCountdownDiscount'</span>, <span class="hljs-comment">// 组件标识，即上面的组件名</span>
+  name: <span class="hljs-string">'倒计时折扣'</span>, <span class="hljs-comment">// 展示在可视化页面中的名称</span>
+  noConfig: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 是否有表单配置 config.vue    ！！注意：如果组件没有配置项则传这个字段，默认是不需要传，这里只是举例</span>
+}]
+</div></code></pre>
+<blockquote>
+<p>这里的注册时给 uni 注册全局组件用的</p>
+</blockquote>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> cmCountdownDiscount <span class="hljs-keyword">from</span> <span class="hljs-string">'./components/common/countdown-discount'</span>;
+Vue.component(<span class="hljs-string">'cmCountdownDiscount'</span>, cmCountdownDiscount);
+</div></code></pre>
+<p>2.2 在 <code>/frontend/uni/pages/component-view/index.vue</code> 中添加组件</p>
+<pre><code class="language-html"><div><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"p-component-view"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>这里是用来查看组件效果的页面<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">cmCountdownDiscount</span> /&gt;</span>
+	<span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+</div></code></pre>
+<h4 id="开发规范">开发规范</h4>
+<ul>
+<li><code>import</code> 的变量名必须用驼峰形式，并且以组件类型的标识（如： cm）开头</li>
+<li>注册的组件名必须与变量名相同</li>
+<li><code>style</code> 中的各种通用属性（如：背景色、字体色、圆角、间距 等）必须使用变量</li>
+</ul>
+<h2 id="3-在开发者工具查看组件效果">3. 在开发者工具查看组件效果</h2>
+<p>在开发时，我们需要实时地查看组件的展示效果。同时，为了实时调试多个平台的兼容性问题，我们需要同时打开多个小程序开发者工具</p>
+<blockquote>
+<p>由于组件的跨端主要使用 uni-app 进行开发，所以需要使用 HBuilderX 的编译器进行多平台编译</p>
+</blockquote>
+<ol>
+<li><a href="https://www.dcloud.io/hbuilderx.html">下载并打开 HBuilderX</a></li>
+<li>将项目文件夹 <code>frontend/uni</code> 用 HBuilderX 打开</li>
+<li>在 HBuilderX 顶栏点击 &quot;运行&quot; -&gt; &quot;运行到小程序模拟器&quot; -&gt; 选择相应要查看的开发者工具（<strong>至少同时打开 微信 和 支付宝 的开发者工具去调试兼容</strong>）</li>
+<li>根据 HBuilderX 控制台的提示操作查看项目运行</li>
+</ol>
+<h2 id="4-让组件可以在可视化页面中使用表单配置">4. 让组件可以在可视化页面中使用表单配置</h2>
+<blockquote>
+<p>参考：可参考 <code>common/entry-list</code> 下的组件和配置</p>
+</blockquote>
+<p>在可视化页面中，我希望各个组件可以用对应的配置表单去修改某些指定的配置项，并且在视图中实时改变效果。<br>
+这里配置表单的开发需要配合 <code>nodejs</code> 和 运行 <code>frontend/visual</code> 项目进行开发和调试</p>
+<h4 id="步骤">步骤</h4>
+<ol>
+<li>
+<p>在组件文件夹内新建 <code>config.vue</code>，即 <code>/frontend/uni/components/common/countdown-discount/config.vue</code></p>
+</li>
+<li>
+<p>按 vue 规范书写单文件组件的内容, 并且使用纯正的 h5 书写。因为这个文件的内容是仅展示在可视化页面中的</p>
+<blockquote>
+<p><code>template</code> 部分最外层类名 和 组件 <code>name</code> 属性，必须以 <code>uni-config-*</code> 开头 + 组件名</p>
+</blockquote>
+</li>
+<li>
+<p>根据可视化工具中的全局组件，编写配置表单</p>
+<blockquote>
+<p>可视化提供的全局组件, 请自行查看 <code>/frontend/visual/src/components-visual/</code> 下的组件</p>
+</blockquote>
+<ul>
+<li>后续会把可视化的全局组件整理出来</li>
+</ul>
+</li>
+<li>
+<p>注册 vuex module<br>
+4.1 在 <code>frontend/uni/src/vuex/modules</code> 下创建文件 <code>countdown-discount.js</code>， 并注册到 <code>vuex.store</code> 中</p>
+<pre><code class="language-js"><div><span class="hljs-comment">// countdown-discount.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">namespaced</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 命名空间必须开启</span>
+  state: {
+    <span class="hljs-attr">pages</span>: {
+      <span class="hljs-comment">// 当本组件有多个页面可能用到的时候，就需要以页面标识为 key，把配置的参数放到对应页面下</span>
+      <span class="hljs-comment">// 如果本组件在整个项目中只会出现一次，可以直接把数据放在 state 下，不用套在对应的页面标识中</span>
+      index: {
+        <span class="hljs-attr">startTime</span>: <span class="hljs-number">3000</span>, <span class="hljs-comment">// 倒数开始时间</span>
+      }
+    }
+  },
+  <span class="hljs-attr">getters</span>: {
+    <span class="hljs-comment">// 由于表单的配置都是依赖于当前可视化的页面，所以需要由 rootGetters 获取到当前页面</span>
+    startTime: <span class="hljs-function">(<span class="hljs-params">state, getters, rootState, rootGetters</span>) =&gt;</span> {
+      <span class="hljs-keyword">const</span> current = state.pages[rootGetters.currentPage];
+
+      <span class="hljs-keyword">return</span> current.startTime;
+    }
+  },
+  <span class="hljs-attr">mutations</span>: {
+    UPDATE_START_TIME(state, { startTime, pageId }) {
+      state.pages[pageId].startTime = startTime;
+    }
+  },
+  <span class="hljs-attr">actions</span>: {
+    updateStartTime({ rootGetters, commit }, payload) {
+      commit(<span class="hljs-string">'UPDATE_START_TIME'</span>, {
+        ...payload,
+        <span class="hljs-attr">pageId</span>: rootGetters.currentPage
+      })
+    }
+  }
+}
+
+
+<span class="hljs-comment">// frontend/uni/src/vuex/modules/index.js</span>
+<span class="hljs-keyword">import</span> cmEntryList <span class="hljs-keyword">from</span> <span class="hljs-string">'./entry-list'</span>;
+<span class="hljs-keyword">import</span> cmCountdownDiscount <span class="hljs-keyword">from</span> <span class="hljs-string">'./countdown-discount'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  cmEntryList,
+  cmCountdownDiscount,
+}
+</div></code></pre>
+<p>4.2 在 <code>/frontend/uni/components/index.js</code> 中，把 <code>config.vue</code> 也进行注册</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> cmCountdownDiscount <span class="hljs-keyword">from</span> <span class="hljs-string">'./common/countdown-discount'</span>;
+<span class="hljs-keyword">import</span> cmCountdownDiscountConfig <span class="hljs-keyword">from</span> <span class="hljs-string">'./common/countdown-discount/config.vue'</span>;
+
+Vue.component(<span class="hljs-string">'cmCountdownDiscount'</span>, cmCountdownDiscount);
+Vue.component(<span class="hljs-string">'cmCountdownDiscountConfig'</span>, cmCountdownDiscountConfig);
+</div></code></pre>
+</li>
+<li>
+<p>修改 index 组件上写死的代码，把涉及到配置项的部分转移到 vuex 中</p>
+<pre><code class="language-html"><div><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"uni-cm-countdown-discount"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>这是新增的 uni-cm-countdown-discount<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>开始倒计时: {{ startTime }}s<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+<span class="hljs-keyword">import</span> { mapGetters } <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'uni-cm-countdown-discount'</span>,
+  data() {
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">time</span>: <span class="hljs-number">5000</span>
+    }
+  },
+  <span class="hljs-attr">computed</span>: {
+    ...mapGetters({
+      <span class="hljs-attr">startTime</span>: <span class="hljs-string">'cmCountdownDiscount/startTime'</span>
+    })
+  }
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</div></code></pre>
+</li>
+</ol>
+<p>表单编写<br>
+必须配合 vuex 编写表单修改的存值</p>
+<h1 id="注意事项">注意事项</h1>
+
+    </body>
+    </html>

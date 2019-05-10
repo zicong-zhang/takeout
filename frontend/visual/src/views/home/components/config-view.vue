@@ -20,8 +20,8 @@
     </div>
 
     <component
-      v-for="(item, idx) in currentUseComponent"
-      :is="useComponents(item)"
+      v-for="(item, idx) in useComponents"
+      :is="`${item.id}-config`"
       :key="idx"
       class="config-item"
     />
@@ -32,7 +32,7 @@
 <script>
   import { mapGetters } from 'vuex';
   import http from '@/request';
-  import useComponents from '@/components';
+  import uniComponents from '@/components';
 
   export default {
     name: "config-view",
@@ -51,17 +51,19 @@
     computed: {
       ...mapGetters([
         'currentUseComponent'
-      ])
+      ]),
+      useComponents() {
+        return uniComponents.filter(item => {
+          const isUse = this.currentUseComponent.includes(item.id);
+
+          return isUse && !item.noConfig;
+        })
+      }
     },
     created() {
       console.log('this.:_____', this.currentUseComponent);
     },
     methods: {
-      useComponents(id) {
-        const currentComponent = useComponents.find(item => item.id === id);
-        console.log('currentComponent:_____', currentComponent);
-        return currentComponent.hasConfig ? `${id}-config` : '';
-      },
       onChangeColor(color) {
         console.log('color:_____', color);
         this.$store.commit('changePageTitleColor', color);

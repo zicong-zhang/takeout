@@ -10,11 +10,13 @@ import Address from './components/common/address';
 import SearchBar from './components/common/search-bar';
 import entryList from './components/common/entry-list';
 import storeList from './components/common/store-list';
+import cmCountdownDiscount from './components/common/countdown-discount';
 
 Vue.component('Address', Address);
 Vue.component('SearchBar', SearchBar);
 Vue.component('entryList', entryList);
 Vue.component('storeList', storeList);
+Vue.component('cmCountdownDiscount', cmCountdownDiscount);
 
 /* @fm-register-component-end */
 

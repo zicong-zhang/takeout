@@ -1,5 +1,5 @@
 <template>
-  <div class="uni-component-config--container">
+  <div class="uni-config-entry-list">
     <vi-title title="入口列表" del="1"></vi-title>
     <ul class="entry-list">
       <li
@@ -9,25 +9,25 @@
       >
         <vi-form-item label="Logo 图片">
           <div class="upload-img">
-            <image
+            <img
               v-if="item.imgUrl"
               :src="item.imgUrl"
               key="has-label"
-              class="entry-list-item--logo"
+              class="entry-list-item__logo"
             />
             <i
               v-else
               key="no-label"
-              class="entry-list-item--logo"
+              class="entry-list-item__logo"
             ></i>
             <el-button type="text" class="upload-button" @click="uploadLogo(idx)">上传图片</el-button>
           </div>
         </vi-form-item>
         <vi-form-item label="名称">
-          <vi-input class="entry-list-item--name" :value="defaultList[idx].name" @input="onInput(idx, $event)" />
+          <vi-input class="entry-list-item__name" :value="defaultList[idx].name" @input="onInput(idx, $event)" />
         </vi-form-item>
         <vi-form-item label="跳转标识">
-          <vi-input class="entry-list-item--link" :value="defaultList[idx].link" @input="onInput(idx, $event)" />
+          <vi-input class="entry-list-item__link" :value="defaultList[idx].link" @input="onInput(idx, $event)" />
         </vi-form-item>
       </li>
     </ul>
@@ -38,7 +38,7 @@
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
-  name: 'uni-component-config--container',
+  name: 'uni-config-entry-list',
   data() {
     return {
 
@@ -47,13 +47,13 @@ export default {
   computed: {
     ...mapGetters({
       currentUseComponent: 'currentUseComponent',
-      defaultList: 'entryList/list'
+      defaultList: 'cmEntryList/list'
     }),
   },
   methods: {
     ...mapActions({
-      changeEntryName: 'entryList/changeEntryName',
-      uploadEntryLogo: 'entryList/uploadEntryLogo'
+      changeEntryName: 'cmEntryList/changeEntryName',
+      uploadEntryLogo: 'cmEntryList/uploadEntryLogo'
     }),
     onInput(idx, value) {
       this.changeEntryName({
@@ -83,17 +83,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.uni-component-config--container {
+.uni-config-entry-list {
   .entry-list-item {
     display: flex;
     flex-flow: column;
     margin-bottom: 16px;
   }
-  .entry-list-item--input__wrapper {
+  .entry-list-item__input__wrapper {
     display: flex;
     flex-flow: column;
   }
-  .entry-list-item--logo {
+  .entry-list-item__logo {
     flex: none;
     width: 48px;
     height: 48px;
@@ -101,7 +101,7 @@ export default {
     border-radius: 50%;
     margin-right: 8px;
   }
-  .entry-list-item--name {
+  .entry-list-item__name {
     text-align: left;
   }
   .upload-img {

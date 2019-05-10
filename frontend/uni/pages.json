@@ -1,6 +1,11 @@
 {
 	"pages": [
-		{
+    {
+			"path": "pages/component-view/index",
+			"style": {
+        "navigationBarTitleText": "查看组件效果"
+			}
+		}, {
 			"path": "pages/index/index",
 			"style": {
         "navigationBarTitleText": "老沙的外卖"
@@ -15,7 +20,7 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "老沙的外卖小程序",
-		"navigationBarBackgroundColor": "#f8ce8d",
+		"navigationBarBackgroundColor": "#F8D6BB",
 		"backgroundColor": "#fff"
 	},
   "condition" : { //模式配置，仅开发期间生效

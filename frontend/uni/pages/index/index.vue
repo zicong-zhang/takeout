@@ -3,12 +3,6 @@
 
     <!-- @fm template start -->
 
-    <Address />
-    <SearchBar />
-    <!-- <Banner /> -->
-    <entryList />
-    <cmCountdownDiscount />
-
     <!-- @fm template end -->
 
 	</view>

@@ -8,7 +8,7 @@
         @click="jumpPage"
       >
         <image
-          class="cm-entry-list__item--icon"
+          class="cm-entry-list__item__icon"
           v-if="label && item.imgUrl"
           :src="item.imgUrl"
           key="has-label"
@@ -16,9 +16,9 @@
         <i
           v-else
           key="no-label"
-          class="cm-entry-list__item--icon"
+          class="cm-entry-list__item__icon"
         ></i>
-        <span class="cm-entry-list__item--name">{{ label ? item.name : '入口名称' }}</span>
+        <span class="cm-entry-list__item__name">{{ label ? item.name : '入口名称' }}</span>
       </li>
     </ul>
   </div>
@@ -42,7 +42,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      list: 'entryList/list'
+      list: 'cmEntryList/list'
     }),
   },
   methods: {
@@ -76,7 +76,7 @@ export default {
     padding: 16upx 0;
   }
 
-  &__item--icon {
+  &__item__icon {
     width: $fm-logo-big;
     height: $fm-logo-big;
     background: #eee;
@@ -84,7 +84,7 @@ export default {
     margin-bottom: 16upx;
   }
 
-  &__item--name {
+  &__item__name {
     color: $fm-font-color1;
     font-size: $fm-font-size3;
   }

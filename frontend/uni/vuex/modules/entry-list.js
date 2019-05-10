@@ -83,24 +83,17 @@ export default {
     ADD_USE_PAGE(state, pageId) {
       const isObj = Object.prototype.toString.call(state.pages[pageId]) === '[object Object]';
       const newPages = JSON.parse(JSON.stringify(state.pages));
-      if (!isObj) {
-        // state.pages[pageId] = {};
-        newPages[pageId] = {};
-      }
+
+      if (!isObj) newPages[pageId] = {};
       
       newPages[pageId].list = createDefaultList();
-      state.aa = '333';
-      // state.pages[pageId].list = createDefaultList();
       state.pages = newPages;
-      console.log(state);
-      debugger
     }
   },
   actions: {
     // 修改入口名称
     changeEntryName({ rootGetters, commit }, payload) {
       const pageId = rootGetters.currentPage;
-      debugger
       commit('CHANGE_ENTRY_NAME', {
         ...payload,
         pageId
